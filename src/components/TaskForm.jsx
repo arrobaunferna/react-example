@@ -43,9 +43,7 @@ class TaskForm extends Component {
         this.cancelEdit();
     }
 
-    cancelEdit = () => {
-        console.log("hola");
-         
+    cancelEdit = () => {         
         this.setState({
             index: null,
             title: '',
