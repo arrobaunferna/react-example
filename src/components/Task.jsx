@@ -32,8 +32,8 @@ class Task extends Component {
                     </div>
 
                     <div className="card-footer">
-                        <button type="button" className="btn btn-primary mr-1" onClick={ this.editTask }>Editar</button>
-                        <button type="button" className="btn btn-danger" onClick={ this.removeTask }>Eliminar</button>
+                        <button type="button" className="btn btn-primary mr-1" onClick={ this.editTask }>Edit</button>
+                        <button type="button" className="btn btn-danger" onClick={ this.removeTask }>Delete</button>
                     </div>
                 </div>
             </div>
