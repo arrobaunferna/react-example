@@ -20,6 +20,10 @@ class App extends Component {
                 responsible: '',
                 description: '',
                 priority: 'low'
+            },
+            search: {
+                key: 'title',
+                value: ''
             }
         };
     }
@@ -54,6 +58,18 @@ class App extends Component {
         }
     }
 
+    handleFindTask = (e) => {
+        let cboSearch = document.querySelector("#cboSearch");
+        let txtSearch = document.querySelector("#txtSearch");
+
+        this.setState({
+            search: {
+                key: cboSearch.value,
+                value: txtSearch.value
+            }
+        });        
+    }
+
     removeTask = index => {
         // Delete task
         this.setState({
@@ -70,8 +86,20 @@ class App extends Component {
         });
     };
 
+    taskFind = () => {
+        let tasks = this.state.tasks.filter((task) => {
+            // ignore case sensitive
+            let original = task[ this.state.search.key ].toLowerCase();
+            let searching = this.state.search.value.toLowerCase();
+            
+            return original.includes( searching );
+        });
+
+        return tasks;
+    }
+
     render() {
-        const tasks = this.state.tasks.map((task, i) => {    
+        const tasks = this.taskFind().map((task, i) => {    
             return (
                 <Task 
                     key={i} 
@@ -94,6 +122,19 @@ class App extends Component {
                     <div className="row">
                         <div className="col-sm-12 col-md-3 col-lg-3 text-center">
                             <img src={logo} className="App-logo img-responsive" alt="logo" />
+                        </div>
+
+                        <div className="col-sm-12 col-md-7 col-lg-7">
+                            <div className="input-group mt-5">
+                                <select id="cboSearch" className="form-control" onChange={ this.handleFindTask } >
+                                    <optgroup label="Search by">
+                                        <option value="title">Title</option>
+                                        <option value="responsible">Responsible</option>
+                                    </optgroup>
+                                </select>
+
+                                <input type="text" id="txtSearch" className="form-control" onChange={ this.handleFindTask } />
+                            </div>
                         </div>
                     </div>
 
