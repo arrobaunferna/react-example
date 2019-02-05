@@ -5,7 +5,7 @@ class TaskForm extends Component {
         super();
         
         this.state = {
-            index: null,
+            id: null,
             title: '',
             responsible: '',
             description: '',
@@ -30,11 +30,11 @@ class TaskForm extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        if(this.state.index != null && this.state.index >= 0) {            
+        if(this.state.id != null && this.state.id >= 0) {            
 
-            let index = this.props.task_edit.index;
+            let id = this.props.task_edit.id;
             this.setState({
-                index
+                id
             });
         }
 
@@ -45,7 +45,7 @@ class TaskForm extends Component {
 
     cancelEdit = () => {         
         this.setState({
-            index: null,
+            id: null,
             title: '',
             responsible: '',
             description: '',
@@ -57,7 +57,7 @@ class TaskForm extends Component {
         let text_boton = 'Add';
         let btnCancel = '';
 
-        if(this.state.index != null && this.state.index >= 0) {
+        if(this.state.id != null && this.state.id >= 0) {
             btnCancel = <button type="button" className="btn btn-secondary mr-1" onClick={ this.cancelEdit } key={0}>Cancel</button>;
             text_boton = 'Edit';
         }

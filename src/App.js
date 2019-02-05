@@ -15,7 +15,7 @@ class App extends Component {
         this.state = {
             tasks,
             task_edit: {
-                index: null,
+                id: null,
                 title: '',
                 responsible: '',
                 description: '',
@@ -31,7 +31,7 @@ class App extends Component {
     resetTaskEdit() {
         this.setState({
             task_edit: {
-                index: null,
+                id: null,
                 title: '',
                 responsible: '',
                 description: '',
@@ -41,9 +41,19 @@ class App extends Component {
     }
 
     handleSaveTask = task => {        
-        if(task.index != null && task.index >= 0) {
+        if(task.id != null && task.id >= 0) {
             const copy = this.state.tasks;
-            copy[task.index] = task;
+
+            this.state.tasks.filter((t, i) => { 
+                let ret = false;
+                if( t.id === task.id ) {
+                    copy[i] = task;
+                    ret = true;
+                }
+
+                return ret
+            });
+            
 
             this.setState({
                 tasks: copy
@@ -52,6 +62,9 @@ class App extends Component {
             this.resetTaskEdit();
 
         } else {
+            let lastInsertId = this.state.tasks.pop().id;
+            task.id = lastInsertId + 1;
+
             this.setState({
                 tasks: [...this.state.tasks, task]
             });
@@ -70,19 +83,18 @@ class App extends Component {
         });        
     }
 
-    removeTask = index => {
+    removeTask = id => {
         // Delete task
         this.setState({
-            tasks: this.state.tasks.filter((_, i) => index !== i)
+            tasks: this.state.tasks.filter(task => task.id !== id)
         });
     }
 
-    showTaskEdit = index => {
-        let edit = this.state.tasks[index];
-        edit.index = index;     
+    showTaskEdit = id => {
+        let edit = this.state.tasks.filter(task => task.id === id);
 
         this.setState({
-            task_edit: edit
+            task_edit: edit[0]
         });
     };
 
@@ -99,17 +111,17 @@ class App extends Component {
     }
 
     render() {
-        const tasks = this.taskFind().map((task, i) => {    
+        const tasks = this.taskFind().map((task) => {    
             return (
                 <Task 
-                    key={i} 
+                    key={task.id} 
                     title={task.title} 
                     responsible={task.responsible} 
                     description={task.description} 
                     priority={task.priority}
 
-                    onEditTask={ this.showTaskEdit.bind(this, i) }
-                    onRemoveTask={ this.removeTask.bind(this, i) }
+                    onEditTask={ this.showTaskEdit.bind(this, task.id) }
+                    onRemoveTask={ this.removeTask.bind(this, task.id) }
                 />
             );
         });
@@ -130,6 +142,7 @@ class App extends Component {
                                     <optgroup label="Search by">
                                         <option value="title">Title</option>
                                         <option value="responsible">Responsible</option>
+                                        <option value="description">Description</option>
                                     </optgroup>
                                 </select>
 
