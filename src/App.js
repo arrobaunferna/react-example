@@ -40,8 +40,8 @@ class App extends Component {
         });
     }
 
-    handleSaveTask = task => {        
-        if(task.id != null && task.id >= 0) {
+    handleSaveTask = task => {               
+        if(task.id != null && task.id >= 0) {            
             const copy = this.state.tasks;
 
             this.state.tasks.filter((t, i) => { 
@@ -62,12 +62,12 @@ class App extends Component {
             this.resetTaskEdit();
 
         } else {
-            let lastInsertId = this.state.tasks.pop().id;
+            let lastInsertId = this.state.tasks[ this.state.tasks.length - 1 ].id;
             task.id = lastInsertId + 1;
 
             this.setState({
                 tasks: [...this.state.tasks, task]
-            });
+            });            
         }
     }
 
@@ -128,7 +128,7 @@ class App extends Component {
         
         return (
             <div className="App">
-                <Navigation title="My App" num_tasks={ this.state.tasks.length } />
+                <Navigation title="Task-Prioritize" num_tasks={ this.state.tasks.length } />
 
                 <div className="container">
                     <div className="row">
