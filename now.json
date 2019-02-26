@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "name": "now-cli-starter",
+    "name": "task-prioritize",
     "builds": [
         {
             "src": "package.json", 
